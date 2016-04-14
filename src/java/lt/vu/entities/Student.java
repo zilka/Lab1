@@ -34,7 +34,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Student.findByFirstName", query = "SELECT s FROM Student s WHERE s.firstName = :firstName"),
     @NamedQuery(name = "Student.findByLastName", query = "SELECT s FROM Student s WHERE s.lastName = :lastName"),
     @NamedQuery(name = "Student.findByRegistrationNo", query = "SELECT s FROM Student s WHERE s.registrationNo = :registrationNo"),
-    @NamedQuery(name = "Student.findByOptLockVersion", query = "SELECT s FROM Student s WHERE s.optLockVersion = :optLockVersion")})
+    @NamedQuery(name = "Student.findByOptLockVersion", query = "SELECT s FROM Student s WHERE s.optLockVersion = :optLockVersion"),
+    @NamedQuery(name = "Student.findByAk", query = "SELECT s FROM Student s WHERE s.ak = :ak")})
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +55,8 @@ public class Student implements Serializable {
     private String registrationNo;
     @Column(name = "OPT_LOCK_VERSION")
     private Integer optLockVersion;
+    @Column(name = "AK")
+    private Integer ak;
     @JoinTable(name = "STUDENT_COURSE", joinColumns = {
         @JoinColumn(name = "STUDENT_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "COURSE_ID", referencedColumnName = "ID")})
@@ -110,6 +113,14 @@ public class Student implements Serializable {
         this.optLockVersion = optLockVersion;
     }
 
+    public Integer getAk() {
+        return ak;
+    }
+
+    public void setAk(Integer ak) {
+        this.ak = ak;
+    }
+
     public List<Course> getCourseList() {
         return courseList;
     }
@@ -129,20 +140,18 @@ public class Student implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registrationNo != null ? registrationNo.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the registrationNo fields are not set
+        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Student)) {
             return false;
         }
         Student other = (Student) object;
-        if ((this.registrationNo == null && other.registrationNo != null)
-                || (this.registrationNo != null &&
-                !this.registrationNo.equals(other.registrationNo))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -150,7 +159,7 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "lt.vu.entities.Student[ registrationNo=" + registrationNo + " ]";
+        return "lt.vu.entities.Student[ id=" + id + " ]";
     }
     
 }
